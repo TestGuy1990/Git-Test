@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="Resources/Stylesheets/Styles.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <h1>Topic Title</h1>
+        <p>Delete this text and replace it with your own content.</p>
+        <p>&#160;</p>
+        <MadCap:codeSnippet class="Test">
+            <MadCap:codeSnippetCopyButton />
+            <MadCap:codeSnippetBody MadCap:useLineNumbers="False" MadCap:lineNumberStart="1" MadCap:continue="False" xml:space="preserve">prompt set db_recovery_file_dest_size to be 20G if smaller
+
+DECLARE
+
+v_db_recovery_file_dest_size INT;
+
+BEGIN
+
+SELECT
+
+nvl(value, 0) / 1024 / 1024 / 1024 size_gb
+
+INTO v_db_recovery_file_dest_size
+
+FROM
+
+v$parameter
+
+WHERE
+
+name = 'db_recovery_file_dest_size';
+
+IF v_db_recovery_file_dest_size &lt; 20 THEN
+
+EXECUTE IMMEDIATE ( 'alter system set db_recovery_file_dest_size=20G' );
+
+dbms_output.put_line('alter system set db_recovery_file_dest_size=20G was done !');
+
+ELSE
+
+dbms_output.put_line('db_recovery_file_dest_size is big enough:'
+
+|| v_db_recovery_file_dest_size
+
+|| 'GB. Nothing was done !');
+
+END IF;
+
+END;</MadCap:codeSnippetBody>
+        </MadCap:codeSnippet>
+    </body>
+</html>
